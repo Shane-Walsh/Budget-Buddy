@@ -26,12 +26,13 @@ var controller = (function(budgetCtrl, UICtrl){
         // 4. Calculate the budget
 
         // 5. Display the budget on the UI
+        console.log('Add item function callled!');
     }
 
     document.querySelector('.add__btn').addEventListener('click', ctrlAddItem);
 
 
-    // Listen for return key press
+    // Listen for return key press only
     document.addEventListener('keypress', function(event){
 
         if(event.keyCode === 13 || event.which === 13){
