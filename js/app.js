@@ -1,7 +1,35 @@
-
+// Keeps track of incomes and expenses of the budget itself and the percentages
 var budgetController = (function(){
 
-   // do something
+   // Expense function constructor
+   var Expense = function(id, description, value){
+
+       this.id = id;
+       this.description = description;
+       this.value = value;
+    };
+    // Income function constructor
+    var Income = function(id, description, value){
+
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    };
+
+    // Data structure of incomes and expenses
+    var data = {
+
+        allItems: {
+
+            exp: [],
+            inc: []
+        },
+        totals: {
+
+            exp: 0,
+            inc: 0
+        }
+    }
 
 
 })();
@@ -15,9 +43,8 @@ var UIController = (function(){
         inputType: '.add__type',
         inputDesc: '.add__description',
         inputValue: '.add__value',
-        inputBtn: '.add__btn',
-
-    }
+        inputBtn: '.add__btn'
+    };
 
     return {
 
