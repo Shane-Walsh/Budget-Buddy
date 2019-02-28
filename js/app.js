@@ -14,7 +14,7 @@ var budgetController = (function(){
 
        if(totalIncome > 0){
 
-           this.percentage = Math.round(this.value / totalIncome) * 100;
+           this.percentage = Math.round((this.value / totalIncome) * 100);
        } else {
 
             this.percentage = -1;
@@ -133,7 +133,6 @@ var budgetController = (function(){
                 // -1 equates to non-existence
                 data.percentage = -1;
             }
-
         },
 
         calculatePercentage: function(){
@@ -173,7 +172,6 @@ var budgetController = (function(){
 
 })();
 
-
 var UIController = (function(){
 
     // Data structure for holding data type strings
@@ -189,7 +187,8 @@ var UIController = (function(){
         incomeLabel: '.budget__income--value',
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
-        container: '.container'
+        container: '.container',
+        expPercentageLabel: '.item__percentage'
     };
 
     return {
@@ -270,6 +269,31 @@ var UIController = (function(){
             }
         },
 
+        displayPercentages: function(percentages){
+
+           // Returns a Node List
+          var fields = document.querySelectorAll(DOMstrings.expPercentageLabel);
+
+          var nodeListForEach = function(list, callback){
+
+              for (var i = 0; i < list.length; i++){
+
+                  callback(list[i], i);
+              }
+          };
+
+          nodeListForEach(fields, function(current, index) {
+
+              if (percentages[index] > 0) {
+
+                  current.textContent = percentages[index] + '%';
+              } else {
+
+                  current.textContent = '---';
+              }
+          });
+        },
+
         // Expose DOMstrings globally so controller module can use them
         getDOMstrings: function(){
 
@@ -312,10 +336,9 @@ var controller = (function(budgetCtrl, UICtrl){
 
         budgetCtrl.calculatePercentage();
 
-        var perCent = budgetCtrl.getPercentage();
+        var percentages = budgetCtrl.getPercentage();
 
-        console.log(perCent);
-
+        UICtrl.displayPercentages(percentages);
     };
 
     var ctrlAddItem = function(){
@@ -342,25 +365,24 @@ var controller = (function(budgetCtrl, UICtrl){
 
         var itemID, splitID, type, ID;
 
-      itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+          itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
 
-      if(itemID){
+          if(itemID){
 
-          splitID = itemID.split('-');
-          type = splitID[0];
-          ID = parseInt(splitID[1]);  // Convert to Int - otherwise comparing different data types
+              splitID = itemID.split('-');
+              type = splitID[0];
+              ID = parseInt(splitID[1]);  // Convert to Int - otherwise comparing different data types
 
-          // Delete item from data structure
-          budgetCtrl.deleteItem(type, ID);
+              // Delete item from data structure
+              budgetCtrl.deleteItem(type, ID);
 
-          // Delete item from UI
-          UICtrl.deleteListItem(itemID);
+              // Delete item from UI
+              UICtrl.deleteListItem(itemID);
 
-          // Update and display new budget
-          updateBudget();
+              updateBudget();
 
-          updatePercentages();
-      }
+              updatePercentages();
+          }
     };
 
     return {
@@ -383,5 +405,5 @@ var controller = (function(budgetCtrl, UICtrl){
 
 })(budgetController, UIController);
 
-// Starts and initialises application
+// initialise app
 controller.init();
