@@ -1,3 +1,6 @@
-# Budget Buddy
+## Budget Buddy
 
-### JavaScript budget planning application to keep track of financial income and expenses.
+###### Personal project to refamiliarize myself with JavaScript ES5
+
+
+Very basic budget planning web app to keep track of monthly financial incomes and expenses.
